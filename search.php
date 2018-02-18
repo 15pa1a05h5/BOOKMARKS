@@ -7,8 +7,9 @@
 	if(isset($_POST['submit'])) {
 		$category=$_GET['category'];
 		$urlid=$_GET['urlid'];
+		$urls=$_GET['urls'];
 		$user_id = $_SESSION['user_id'];
-		$qry2 = "select * from url where `user_id`='$user_id' and `url_id`='$urlid' and `category`='$category';";
+		$qry1 = "SELECT * FROM `url` where (`url` like '%$urls%')";
 		mysqli_query($conn,$qry2);
 	}
 ?>
@@ -23,24 +24,47 @@
 		</div>
 		<div class="content">
 			<div class="disp decription">
-				<h3>Search Added URLS</h3>
+				<h3>Search Added URLS</h3><br>
 				<form method="post" id="frm">
-					<input type="text" name="urlid" id="urlid">
-						<select name="category" id="categer">
-							<option value="Studies">Studies</option>
-							<option value="Social Networking">Social Networking</option>
-							<option value="Stories">Stories</option>
-							<option value="Food">Food</option>
-							<option value="Sports">Sports</option>
-							<option value="politics">Politics</option>
-							<option value="others">Others</option>
-						</select>
+					SearchByurl:<input type="text" name="urls" id="urls">
 					<input type="button" value="Submit" name="submit" onclick="showurls();">
 				</form>
 				<div id="comments" class="comments">
-</div>
+					<?php $qry1 = "SELECT * FROM `url` where `user_id`='$user_id';";
+					$sql1 = mysqli_query($conn,$qry1);
+					if(mysqli_num_rows($sql1)>0) {
+						echo "<table class='pop'>";
+						echo "<tr>";
+						echo "<th>URL</th>";
+						echo "<th>Category</th>";
+						echo "<th>URL_ID</th>";
+						echo "<th>add_time</th>";
+						echo "</tr>";
+						while($row1=mysqli_fetch_assoc($sql1)) {
+							$uid = $row1['user_id'];
+							$qry2 = "SELECT * FROM `tbl_user` where `user_id` = '$uid'";
+							$sql2 = mysqli_query($conn,$qry2);
+							$row2=mysqli_fetch_assoc($sql2);
+							echo "<tr>";
+							echo "<td>";
+							echo $row1['url'];
+							echo "</td>";
+							echo "<td>";
+							echo $row1['category'];
+							echo "</td>";
+							echo "<td>";
+							echo $row1['url_id'];
+							echo "</td>";
+							echo "<td>";
+							echo $row1['add_time'];
+							echo "</td>";
+							echo "</tr>";
+						}
+						echo "</table>";
+					}else echo "Nocomments"; ?>
+				</div>
 				<script>
-				document.getElementById("categer").selectedIndex = -1;
+				
 			function showurls() {
 				document.getElementById("comments").innerHTML=" ";
 
@@ -50,11 +74,9 @@
 						document.getElementById("comments").innerHTML += this.responseText;
 					}
 				};
-				var cat=document.getElementById("categer").value;
-				var urlid=document.getElementById("urlid").value;
+				var urls=document.getElementById("urls").value;
 				document.getElementById("frm").reset();
-				document.getElementById("categer").selectedIndex = -1;
-				xhttp.open("GET","showurls.php?rid=<?php echo $user_id;?>&cat="+cat+"&urlid="+urlid, true);
+				xhttp.open("GET","showurls.php?rid=<?php echo $user_id;?>&urls="+urls, true);
 				xhttp.send();
 			}
 		</script>

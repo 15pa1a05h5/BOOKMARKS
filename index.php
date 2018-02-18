@@ -10,8 +10,15 @@ $category=$_POST['category'];
 $urlid=$_POST['urlid'];
 $user_id = $_SESSION['user_id'];
 $user_name = $_SESSION['user_name'];
+	$qry1="select * from url where `url`='$url'";
+		$sql=mysqli_query($conn,$qry1);
+		if(mysqli_num_rows($sql)>0) {
+			$warning = "Already added this url";
+		}
+		else{
 echo $qry2 = "INSERT INTO `url` (`user_id`,`username`,`url`,`url_id`,`category` ) VALUES ('$user_id','$user_name','$url','$urlid','$category');";
 mysqli_query($conn,$qry2);
+}
 }
 ?>
 <!DOCTYPE html>
@@ -25,11 +32,11 @@ mysqli_query($conn,$qry2);
 		</div>
 		<div class="content">
 			<div class="disp decription">
-				<h3>Add Your URLS</h3>
+				<h3>Add Your URL</h3>
 				<form method="post" id="frm" >
 					<input type="text" name="comment" id="comment" required>
-					URL_ID:<input type="text" name="url_id" id="url_id">
-						<select name="category" id="categer">
+					URL(short name):<input type="text" name="url_id" id="url_id">
+					CATEGORY:<br> 	<select name="category" id="categer">
 							<option value="Studies">Studies</option>
 							<option value="Social Networking">Social Networking</option>
 							<option value="Stories">Stories</option>
@@ -39,6 +46,7 @@ mysqli_query($conn,$qry2);
 						</select>
 					<input type="button" value="Submit" onclick="showComments();">
 				</form>
+				<h4> <?php if(isset($warning)) echo $warning; ?></h4>
 				<div id="try"></div>
 		<script>
 			document.getElementById("categer").selectedIndex = -1;

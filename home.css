@@ -41,25 +41,20 @@ body{
 }
 .disp {
     background-color: white;
-    padding: 20px;
+    padding: 5px;
 }
-.disp h2 {
-    color: #76B4A5;
-    text-align: center;
-    font-size: 1.5em;
-    padding-bottom: 20px;
+/*.disp decription{
+	 background-color: white;
+	 color:black;
+	 display:block;
+}*/
+table th,td{
+	border:1px solid black;
+	
 }
-.home-h3 {
-    color: white;
-    text-align: left;
-    background-color: grey;
-    padding: 3px 5px 3px 15px;
-}
-.footer {
-    color: white;
-    text-align: center;
-    padding-top: 20px;
-    font-size: 0.8em;
+table{
+	border:1px solid black;
+	table-layout:auto;
 }
 
 input {
@@ -68,10 +63,4 @@ input {
     margin: 8px 0;
     box-sizing: border-box;
 
-}
-textarea{
-    width: 100%;
-    height: 150px;
-    padding: 12px 20px;
-    box-sizing: border-box;
 }

@@ -40,5 +40,7 @@ if(isset($_SESSION['email']))
                 Password<input type="password" name="pass">
                 <input type="submit" name="sub" value="Click to Submit">
             </form>
-    </body>  
+			<b>If you are a new user click on <a href="register.php">Register</a></b>
+    </body> 
+		
 </html>
